@@ -85,10 +85,10 @@ maemo_summoner_LDADD = -ldl
 
 check_PROGRAMS = test-msg test-msg-perf
 
-test_msg_SOURCES = test_lib.h test_lib.c test_msg.c comm_msg.c report.c
+test_msg_SOURCES = invokelib.c test_lib.h test_lib.c test_msg.c comm_msg.c report.c
 test_msg_CPPFLAGS = -DPROG_NAME="\"test-msg\""
 
-test_msg_perf_SOURCES = test_msg_perf.c comm_msg.c report.c
+test_msg_perf_SOURCES = test_msg_perf.c comm_msg.c report.c invokelib.c
 test_msg_perf_CPPFLAGS = -DPROG_NAME="\"test-msg-perf\""
 
 TESTS = $(check_PROGRAMS)

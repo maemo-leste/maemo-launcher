@@ -26,10 +26,10 @@
 
 typedef struct comm_msg comm_msg_t;
 
-comm_msg_t *comm_msg_new(uint32_t size, uint32_t size_max);
+comm_msg_t *comm_msg_new(size_t size, size_t size_max);
 bool comm_msg_destroy(comm_msg_t *msg);
-bool comm_msg_print(comm_msg_t *msg, char *func);
-bool comm_msg_grow(comm_msg_t *msg, uint32_t need_size);
+bool comm_msg_print(comm_msg_t *msg, const char *func);
+bool comm_msg_grow(comm_msg_t *msg, size_t need_size);
 bool comm_msg_reset(comm_msg_t *msg);
 
 bool comm_msg_send(int fd, comm_msg_t *msg);
@@ -38,8 +38,8 @@ bool comm_msg_recv(int fd, comm_msg_t *msg);
 bool comm_msg_put_magic(comm_msg_t *msg, uint32_t magic);
 bool comm_msg_get_magic(comm_msg_t *msg, uint32_t *magic);
 
-bool comm_msg_put_int(comm_msg_t *msg, uint32_t i);
-bool comm_msg_get_int(comm_msg_t *msg, uint32_t *i);
+bool comm_msg_put_int(comm_msg_t *msg, int32_t i);
+bool comm_msg_get_int(comm_msg_t *msg, int32_t *i);
 
 bool comm_msg_put_str(comm_msg_t *msg, const char *str);
 bool comm_msg_get_str(comm_msg_t *msg, const char **str);

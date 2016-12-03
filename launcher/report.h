@@ -50,9 +50,9 @@ extern void report(enum report_type type, char *msg, ...);
 #define debug(...)
 #endif
 
-#define info(msg, ...) report(report_info, msg, ##__VA_ARGS__)
-#define warning(msg, ...) report(report_warning, msg, ##__VA_ARGS__)
-#define error(msg, ...) report(report_error, msg, ##__VA_ARGS__)
+#define info(...) report(report_info, __VA_ARGS__)
+#define warning(...) report(report_warning, __VA_ARGS__)
+#define error(...) report(report_error, __VA_ARGS__)
 
 extern void ATTR_NORET die(int status, char *msg, ...);
 

@@ -2,14 +2,13 @@ Source: maemo-launcher
 Section: embedded
 Priority: optional
 Maintainer: Janne Karhunen <Janne.Karhunen@nokia.com>
-Build-Depends: debhelper (>= 5.0.0), libgtk2.0-dev (>= 2.6.4),
+Build-Depends: debhelper (>= 5.0.0), libgtk-3-dev,
  libfontconfig1-dev, libpango1.0-dev, libdbus-1-dev (>= 0.60),
 # These are just linked to force resolving symbols, but not actually used:
- libpulse-dev, libosso-dev,  sqlite3, libconic0-dev, libi18n-dev,
- libosso-gnomevfs2-dev (>= 2.8.0), libhildon1-dev, libhildonmime-dev, 
- libhildonfm2-dev, libhildondesktop1-dev, libtelepathy-glib-dev,
- libedataserver-dev, libedata-book-dev, libmodest-dbus-client-dev,
- libjpeg62-dev, libgvfscommon-dev, libsqlite3-dev
+ libpulse-dev, libosso-dev,  sqlite3, libconic0-dev,
+ libhildon3-dev, libhildonmime-dev,
+ libhildondesktop3-dev, libtelepathy-glib-dev,
+ libjpeg62-turbo-dev, libsqlite3-dev
 # To build the QT Booster we need libqt4-dev
 Standards-Version: 3.7.2
 

@@ -26,6 +26,7 @@
 #include <unistd.h>
 
 #include "report.h"
+#include "invokelib.h"
 #include "comm_msg.h"
 
 #define WORD_SIZE	sizeof(uint32_t)
@@ -33,15 +34,15 @@
 #define WORD_ALIGN(x)	(((x) + WORD_SIZE - 1) & WORD_MASK)
 
 struct comm_msg {
-  uint32_t size;
-  uint32_t size_max;
-  uint32_t used;
-  uint32_t read;
+  size_t size;
+  size_t size_max;
+  size_t used;
+  size_t read;
   void *buf;
 };
 
 comm_msg_t *
-comm_msg_new(uint32_t size, size_t size_max)
+comm_msg_new(size_t size, size_t size_max)
 {
   comm_msg_t *msg;
 
@@ -83,22 +84,22 @@ comm_msg_destroy(comm_msg_t *msg)
 }
 
 bool
-comm_msg_print(comm_msg_t *msg, char *func)
+comm_msg_print(comm_msg_t *msg, const char *func)
 {
   uint32_t i, *p = msg->buf;
 
   info("%s: size: %08x\n", func, msg->size);
 
-  for (i = 0; i < msg->used / sizeof(uint32_t); i++)
+  for (i = 0; i < msg->used / sizeof(msg->used); i++)
     info("%s: data[%04x]: %08x\n", func, i, p[i]);
 
   return true;
 }
 
 bool
-comm_msg_grow(comm_msg_t *msg, uint32_t need_size)
+comm_msg_grow(comm_msg_t *msg, size_t need_size)
 {
-  uint32_t end_size;
+  size_t end_size;
   void *p;
 
   if (msg->size - msg->used >= need_size)
@@ -122,7 +123,7 @@ comm_msg_grow(comm_msg_t *msg, uint32_t need_size)
     return false;
 
   msg->buf = p;
-  memset(msg->buf + msg->used, 0, end_size - msg->used);
+  memset((uint8_t *)(msg->buf) + msg->used, 0, end_size - msg->used);
 
   msg->size = end_size;
 
@@ -142,17 +143,31 @@ comm_msg_reset(comm_msg_t *msg)
  */
 
 static void
-comm_msg_put_u32(comm_msg_t *msg, uint32_t i)
+comm_msg_put_u32(comm_msg_t *msg, uint32_t u)
 {
-  memcpy(msg->buf + msg->used, &i, sizeof(i));
-  msg->used += sizeof(i);
+  memcpy((uint8_t *)(msg->buf) + msg->used, &u, sizeof(u));
+  msg->used += sizeof(u);
 }
 
 static void
-comm_msg_get_u32(comm_msg_t *msg, uint32_t *i)
+comm_msg_get_u32(comm_msg_t *msg, uint32_t *u)
 {
-  memcpy(i, msg->buf + msg->read, sizeof(*i));
-  msg->read += sizeof(*i);
+  memcpy(u, (uint8_t *)(msg->buf) + msg->read, sizeof(*u));
+  msg->read += sizeof(*u);
+}
+
+static void
+comm_msg_put_size(comm_msg_t *msg, size_t s)
+{
+  memcpy((uint8_t *)(msg->buf) + msg->used, &s, sizeof(s));
+  msg->used += sizeof(s);
+}
+
+static void
+comm_msg_get_size(comm_msg_t *msg, size_t *s)
+{
+  memcpy(s, (uint8_t *)(msg->buf) + msg->read, sizeof(*s));
+  msg->read += sizeof(*s);
 }
 
 /*
@@ -182,15 +197,15 @@ comm_msg_get_magic(comm_msg_t *msg, uint32_t *magic)
 }
 
 bool
-comm_msg_put_int(comm_msg_t *msg, uint32_t i)
+comm_msg_put_int(comm_msg_t *msg, int32_t i)
 {
-  static const uint32_t size = sizeof(i);
+  static const size_t size = sizeof(i);
 
   if (!comm_msg_grow(msg, size + sizeof(size)))
     return false;
 
   /* Pack the size. */
-  comm_msg_put_u32(msg, size);
+  comm_msg_put_size(msg, size);
 
   /* Pack the data. */
   comm_msg_put_u32(msg, i);
@@ -199,19 +214,21 @@ comm_msg_put_int(comm_msg_t *msg, uint32_t i)
 }
 
 bool
-comm_msg_get_int(comm_msg_t *msg, uint32_t *i)
+comm_msg_get_int(comm_msg_t *msg, int32_t *i)
 {
-  uint32_t size;
+  size_t size;
+  uint32_t u;
 
   if (msg->read + sizeof(size) + sizeof(*i) > msg->used)
     return false;
 
-  comm_msg_get_u32(msg, &size);
+  comm_msg_get_size(msg, &size);
 
   if (size != sizeof(*i))
     return false;
 
-  comm_msg_get_u32(msg, i);
+  comm_msg_get_u32(msg, &u);
+  *i = u;
 
   return true;
 }
@@ -219,24 +236,24 @@ comm_msg_get_int(comm_msg_t *msg, uint32_t *i)
 bool
 comm_msg_put_str(comm_msg_t *msg, const char *str)
 {
-  uint32_t size = strlen(str) + 1;
-  uint32_t aligned_size = WORD_ALIGN(size);
-  uint32_t pad_size = aligned_size - size;
+  size_t size = strlen(str) + 1;
+  size_t aligned_size = WORD_ALIGN(size);
+  size_t pad_size = aligned_size - size;
 
   if (!comm_msg_grow(msg, aligned_size + sizeof(size)))
     return false;
 
   /* Pack the size. */
-  comm_msg_put_u32(msg, aligned_size);
+  comm_msg_put_size(msg, aligned_size);
 
   /* Pack the data. */
-  memcpy(msg->buf + msg->used, str, size);
+  memcpy((uint8_t *)(msg->buf) + msg->used, str, size);
   msg->used += size;
 
   if (pad_size)
   {
     /* Add padding, if needed. */
-    memset(msg->buf + msg->used, 0, pad_size);
+    memset((uint8_t *)(msg->buf) + msg->used, 0, pad_size);
     msg->used += pad_size;
   }
 
@@ -246,16 +263,16 @@ comm_msg_put_str(comm_msg_t *msg, const char *str)
 bool
 comm_msg_get_str(comm_msg_t *msg, const char **str_r)
 {
-  uint32_t size;
+  size_t size;
   const char *str;
 
-  if (msg->read + sizeof(uint32_t) > msg->used)
+  if (msg->read + sizeof(size) > msg->used)
     return false;
 
-  comm_msg_get_u32(msg, &size);
+  comm_msg_get_size(msg, &size);
 
   /* Keep a pointer to the data. */
-  str = msg->buf + msg->read;
+  str = (char *)(msg->buf) + msg->read;
   msg->read += size;
 
   if (msg->read > msg->used)
@@ -273,8 +290,8 @@ bool
 comm_msg_send(int fd, comm_msg_t *msg)
 {
   const bool result =
-  	(sizeof(msg->used) == (uint32_t)write(fd, &msg->used, sizeof(msg->used))) &&
-	(msg->used == (uint32_t)write(fd, msg->buf, msg->used));
+       (sizeof(msg->used) == write(fd, &msg->used, sizeof(msg->used))) &&
+       (msg->used == write(fd, msg->buf, msg->used));
 
 #if DEBUG
   comm_msg_print(msg, __FUNCTION__);
@@ -286,7 +303,7 @@ comm_msg_send(int fd, comm_msg_t *msg)
 bool
 comm_msg_recv(int fd, comm_msg_t *msg)
 {
-  uint32_t size;
+  size_t size;
 
   if ( invoke_raw_read(fd, &size, sizeof(size)) )
     return false;

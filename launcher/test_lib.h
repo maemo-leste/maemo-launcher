@@ -29,7 +29,7 @@ void tests_init(int total);
 bool tests_summary(void);
 void test_success(bool r);
 void test_failure(bool r);
-void test_cmp_int(uint32_t a, uint32_t b);
+void test_cmp_int(unsigned int a, unsigned int b);
 void test_cmp_str(const char *a, const char *b);
 
 #endif

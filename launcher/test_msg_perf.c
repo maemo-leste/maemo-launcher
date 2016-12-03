@@ -29,7 +29,7 @@ int
 main()
 {
 	comm_msg_t *msg;
-	uint32_t w = 0x87654321;
+	unsigned int w = 0x87654321;
 	const int i_max = 100000, j_max = 100;
 	int i, j;
 	clock_t t_ini, t_end;
@@ -37,7 +37,7 @@ main()
 
 	/* Serializing. */
 
-	msg = comm_msg_new(j_max * 2 * sizeof(uint32_t), 0);
+	msg = comm_msg_new(j_max * 2 * sizeof(w), 0);
 
 	t_ini = clock();
 

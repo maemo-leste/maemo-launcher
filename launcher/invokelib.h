@@ -24,14 +24,14 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-bool invoke_send_msg(int fd, uint32_t msg);
-bool invoke_recv_msg(int fd, uint32_t *msg);
+bool invoke_send_msg(int fd, unsigned int msg);
+bool invoke_recv_msg(int fd, unsigned int *msg);
 
 bool invoke_send_str(int fd, char *str);
 char *invoke_recv_str(int fd);
 
 /* read data from socket to pointed buffer. expected size bytes to be loaded. return 0 or errno */
-int invoke_raw_read(int fd, void* buffer, uint32_t size);
+int invoke_raw_read(int fd, void* buffer, size_t size);
 
 /* FIXME: Should be '/var/run/'. */
 #define INVOKER_SOCK	"/tmp/."PACKAGE

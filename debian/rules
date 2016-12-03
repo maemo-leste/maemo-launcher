@@ -6,10 +6,10 @@ DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
 POD2MAN := pod2man -c maemo-launcher
 
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -Werror
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0
+	CFLAGS += -O0 -DDEBUG=1
 else
 	CFLAGS += -O2
 endif
@@ -20,11 +20,11 @@ else
 	opt_hildon := --enable-hildon-booster --enable-cpp-booster
 endif
 
-ifneq (,$(findstring noqt,$(DEB_BUILD_OPTIONS)))
-	opt_qt :=
-else
-	opt_qt := --enable-qt-booster
-endif
+#ifneq (,$(findstring noqt,$(DEB_BUILD_OPTIONS)))
+#	opt_qt :=
+#else
+#	opt_qt := --enable-qt-booster
+#endif
 
 # Nasty thing due to having the upstream and debian stuff merged.
 configure: configure.ac

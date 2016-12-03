@@ -30,14 +30,14 @@
 
 
 int
-invoke_raw_read(int fd, void* buffer, uint32_t size)
+invoke_raw_read(int fd, void* buffer, size_t size)
 {
-  uint32_t cnt = size;
+  size_t cnt = size;
   char*    buf = (char*)buffer;
 
   /* check buffer and size */
   if (NULL == buffer || 0 == size)
-     return EINVAL;
+     return -EINVAL;
 
    /* load message in several iterations */
    while (cnt > 0)
@@ -80,7 +80,7 @@ invoke_recv_msg(int fd, uint32_t *msg)
 bool
 invoke_send_str(int fd, char *str)
 {
-  uint32_t size;
+  size_t size;
 
   /* Send size. */
   size = (str && *str ? strlen(str) : 0);
@@ -99,7 +99,7 @@ invoke_send_str(int fd, char *str)
   debug("%s: '%s'\n", __FUNCTION__, str);
 
   /* Send the string if size is non-zero */
-  if (size && size != (uint32_t)write(fd, str, size))
+  if (size && size != write(fd, str, size))
   {
     error("unable to write string with size %u in %s\n", size, __FUNCTION__);
     return false;

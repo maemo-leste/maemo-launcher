@@ -63,7 +63,7 @@ test_failure(bool r)
 }
 
 void
-test_cmp_int(uint32_t a, uint32_t b)
+test_cmp_int(unsigned int a, unsigned int b)
 {
 	if (a == b)
 		++tests_ok;

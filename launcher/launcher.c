@@ -39,6 +39,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <errno.h>
+#include <assert.h>
 
 #include "report.h"
 #include "invokelib.h"
@@ -192,7 +193,7 @@ invoked_init(void)
 static bool
 invoked_get_magic(int fd, prog_t *prog)
 {
-  uint32_t magic;
+  unsigned int magic;
 
   /* Receive the magic. */
   if (invoke_recv_msg(fd, &magic) && (magic & INVOKER_MSG_MASK) == INVOKER_MSG_MAGIC)
@@ -219,7 +220,7 @@ invoked_get_magic(int fd, prog_t *prog)
 static bool
 invoked_get_name(int fd, prog_t *prog)
 {
-  uint32_t msg;
+  unsigned int msg;
 
   /* Get the action. */
   if (invoke_recv_msg(fd, &msg) && msg != INVOKER_MSG_NAME)
@@ -249,7 +250,7 @@ static bool
 invoked_get_args(int fd, prog_t *prog)
 {
   int i;
-  uint32_t argc;
+  unsigned int argc;
   size_t size;
 
   /* Get argc. */
@@ -290,7 +291,7 @@ invoked_get_args(int fd, prog_t *prog)
 static bool
 invoked_get_prio(int fd, prog_t *prog)
 {
-  uint32_t prio;
+  unsigned int prio;
 
   if ( invoke_recv_msg(fd, &prio) )
   {
@@ -354,7 +355,7 @@ static bool
 invoked_get_env(int fd, prog_t *prog)
 {
   int i;
-  uint32_t n_vars;
+  unsigned int n_vars;
 
   /* Get number of environment variables. */
   if ( !invoke_recv_msg(fd, &n_vars) )
@@ -403,7 +404,7 @@ invoked_get_actions(int fd, prog_t *prog)
 {
   while (1)
   {
-    uint32_t action;
+    unsigned int action;
 
     /* Get the action. */
     if ( !invoke_recv_msg(fd, &action) )
@@ -694,7 +695,8 @@ load_state(int *invoker_fd)
 {
   int i;
   int fd;
-  uint32_t w, magic;
+  int w;
+  unsigned int magic;
   const char *s;
   kindergarten_t *childs;
   child_t *list;
@@ -913,6 +915,8 @@ main(int argc, char *argv[])
   bool quiet = false;
   bool upgrading = false;
 
+  /* Protect us from platforms where pid_t and uint32_t differ in size */
+  assert(sizeof(pid_t) == sizeof(uint32_t));
   /*
    * Parse arguments.
    */

@@ -33,11 +33,11 @@ int
 main()
 {
 	int fd;
-	uint32_t magic = 0xffff5555;
-	uint32_t w1 = 0xcafef00d, w2 = 0xdeadbeef, w3 = 0xd00d, w4 = 0xbabe;
+	unsigned int magic = 0xffff5555;
+	unsigned int w1 = 0xcafef00d, w2 = 0xdeadbeef, w3 = 0xd00d, w4 = 0xbabe;
 	const char *s1 = "0123456789abcdef, end here.";
 	const char *s2 = "some other more reasonable string";
-	uint32_t w;
+	int w;
 	const char *s;
 	comm_msg_t *msg;
 
@@ -75,7 +75,7 @@ main()
 
 	tests_init(8);
 
-	if (comm_msg_get_magic(msg, &w))
+	if (comm_msg_get_magic(msg, (unsigned int *)&w))
 		test_cmp_int(magic, w);
 
 	if (comm_msg_get_int(msg, &w))

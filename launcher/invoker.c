@@ -97,9 +97,9 @@ disable_self_core_dump(void)
 
 
 static bool
-__invoke_receive_marker(int fd, const uint32_t action, const char* action_name, const char* function)
+__invoke_receive_marker(int fd, const unsigned int action, const char* action_name, const char* function)
 {
-  uint32_t marker;
+  unsigned int marker;
 
   /* Receive action marker */
   if ( !invoke_recv_msg(fd, &marker) )
@@ -253,7 +253,7 @@ invoker_send_end(int fd)
 static bool
 invoker_recv_pid(int fd)
 {
-  uint32_t pid;
+  unsigned int pid;
 
   /* Receive action marker and pid */
   if (invoke_receive_marker(fd, INVOKER_MSG_PID) && invoke_recv_msg(fd, &pid))
@@ -267,18 +267,18 @@ invoker_recv_pid(int fd)
 static int
 invoker_recv_exit(int fd)
 {
-  uint32_t status;
+  unsigned int status;
   if (invoke_receive_marker(fd, INVOKER_MSG_EXIT) && invoke_recv_msg(fd, &status))
     return status;
   else
     die(1, "receiving status (%08x) failed for fd %d: %s\n", INVOKER_MSG_EXIT, fd, strerror(errno));
 }
 
-static uint32_t
+static unsigned int
 get_file_int(const char *filename)
 {
   FILE *f;
-  uint32_t u;
+  unsigned int u;
 
   f = fopen(filename, "r");
   if (f == NULL)
@@ -299,8 +299,8 @@ get_file_int(const char *filename)
 static unsigned int
 get_linux_lowmem_modifier(void)
 {
-  uint32_t mem_allowed;
-  uint32_t mem_used;
+  unsigned int mem_allowed;
+  unsigned int mem_used;
   const unsigned int lowmem_threshold = 80; /* Memory use percentage. */
   int modifier;
 
