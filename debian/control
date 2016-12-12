@@ -8,7 +8,7 @@ Build-Depends: debhelper (>= 5.0.0), libgtk-3-dev,
  libpulse-dev, libosso-dev,  sqlite3, libconic0-dev,
  libhildon3-dev, libhildonmime-dev,
  libhildondesktop3-dev, libtelepathy-glib-dev,
- libjpeg62-turbo-dev, libsqlite3-dev
+ libjpeg62-turbo-dev, libsqlite3-dev, libalarm-dev
 # To build the QT Booster we need libqt4-dev
 Standards-Version: 3.7.2
 
