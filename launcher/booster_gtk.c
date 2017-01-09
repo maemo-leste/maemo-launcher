@@ -41,8 +41,10 @@ static GetTypeFunc get_type_funcs[] =
   gtk_accel_group_get_type,
   gtk_accel_label_get_type,
   gtk_accel_map_get_type,
+  gtk_action_group_get_type,
   gtk_adjustment_get_type,
-  gtk_aspect_frame_get_type,
+  gtk_alignment_get_type,
+  gtk_arrow_get_type,  gtk_aspect_frame_get_type,
   gtk_button_get_type,
   gtk_calendar_get_type,
   gtk_cell_renderer_pixbuf_get_type,
@@ -50,6 +52,7 @@ static GetTypeFunc get_type_funcs[] =
   gtk_cell_renderer_toggle_get_type,
   gtk_clipboard_get_type,
   gtk_color_button_get_type,
+  gtk_combo_box_entry_get_type,
   gtk_combo_box_get_type,
   gtk_drawing_area_get_type,
   gtk_entry_completion_get_type,
@@ -58,18 +61,19 @@ static GetTypeFunc get_type_funcs[] =
   gtk_file_chooser_dialog_get_type,
   gtk_file_filter_get_type,
   gtk_fixed_get_type,
-  gtk_box_get_type,
-  gtk_paned_get_type,
-  gtk_scrollbar_get_type,
-  gtk_separator_get_type,
+  gtk_hbox_get_type,
+  gtk_hpaned_get_type,
+  gtk_hscrollbar_get_type,
+  gtk_hseparator_get_type,
   gtk_image_get_type,
-  gtk_menu_item_get_type,
+  gtk_image_menu_item_get_type,
   gtk_im_context_simple_get_type,
   gtk_list_store_get_type,
   gtk_menu_bar_get_type,
   gtk_menu_get_type,
   gtk_notebook_get_type,
   gtk_progress_bar_get_type,
+  gtk_radio_action_get_type,
   gtk_radio_menu_item_get_type,
   gtk_radio_tool_button_get_type,
   gtk_scrolled_window_get_type,
@@ -78,9 +82,8 @@ static GetTypeFunc get_type_funcs[] =
   gtk_size_group_get_type,
   gtk_spin_button_get_type,
   gtk_statusbar_get_type,
-  gtk_style_context_get_type,
-  gtk_grid_get_type,
-  gtk_text_buffer_get_type,
+  gtk_style_get_type,
+  gtk_table_get_type,  gtk_text_buffer_get_type,
   gtk_text_view_get_type,
   gtk_toolbar_get_type,
   gtk_tree_model_filter_get_type,
@@ -89,7 +92,10 @@ static GetTypeFunc get_type_funcs[] =
   gtk_tree_store_get_type,
   gtk_tree_view_column_get_type,
   /* gtk_tree_view_get_type, */  /* Disabled because of hildon brokenness. */
+  gtk_ui_manager_get_type,
+  gtk_vbox_get_type,
   gtk_viewport_get_type,
+  gtk_vpaned_get_type
 };
 
 static int
@@ -139,7 +145,7 @@ init_cairo(void)
 static booster_state_t
 booster_gtk_preinit(int *argc, char ***argv)
 {
-  GtkStyleContext *style;
+  GtkStyle *style;
 #ifdef DEBUG
   GTimer *timer;
 
@@ -169,11 +175,10 @@ booster_gtk_preinit(int *argc, char ***argv)
 
   debug("init_cairo() took %f seconds\n", g_timer_elapsed(timer, NULL));
 
-  style = gtk_style_context_new();
+  style = gtk_style_new();
   g_object_unref(style);
 
-  debug("gtk_style_context_new() took %f seconds\n",
-	g_timer_elapsed(timer, NULL));
+  debug("gtk_style_new() took %f seconds\n", g_timer_elapsed(timer, NULL));
 
   return NULL;
 }

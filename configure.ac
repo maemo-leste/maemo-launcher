@@ -56,7 +56,7 @@ AC_ARG_ENABLE([hildon-booster],
 	esac], [hildon_booster=false])
 
 PKG_CHECK_MODULES([BOOSTER_GTK], [
-	gtk+-3.0
+	gtk+-2.0
 	fontconfig
 ])
 
@@ -70,8 +70,8 @@ PKG_CHECK_MODULES([BOOSTER_HILDON], [
 	alarm
 	libosso
 	libhildonmime
-	libhildondesktop-3
-	hildon-3
+	libhildondesktop-1
+	hildon-1
 	telepathy-glib
 	sqlite3
 	conic
