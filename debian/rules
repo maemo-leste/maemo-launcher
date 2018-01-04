@@ -33,7 +33,7 @@ configure: configure.ac
 
 config.status: configure
 	dh_testdir
-	
+
 	CFLAGS="$(CFLAGS)" ./configure \
 	  --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) \
 	  $(opt_hildon) \
@@ -43,9 +43,9 @@ config.status: configure
 
 build: config.status
 	dh_testdir
-	
+
 	$(MAKE)
-	
+
 	$(POD2MAN) $(CURDIR)/debian/dh_maemolauncher > \
 	           $(CURDIR)/debian/dh_maemolauncher.1
 
@@ -53,9 +53,9 @@ clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp
-	
+
 	[ ! -f Makefile ] || $(MAKE) distclean
-	
+
 	dh_clean
 
 install: build
@@ -63,15 +63,15 @@ install: build
 	dh_testroot
 	dh_clean -k
 	dh_installdirs -a
-	
+
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
-	
+
 	install -D $(CURDIR)/debian/maemo-launcher.Xsession \
 		$(CURDIR)/debian/tmp/etc/X11/Xsession.d/02maemo-launcher
 
 	install -D $(CURDIR)/debian/maemo-launcher.Xsession-restart \
 		$(CURDIR)/debian/tmp/etc/X11/Xsession.d/42maemo-launcher
-	
+
 	cp $(CURDIR)/debian/dh_maemolauncher \
 	   $(CURDIR)/debian/tmp/usr/bin
 	cp $(CURDIR)/debian/dh_maemolauncher.1 \
