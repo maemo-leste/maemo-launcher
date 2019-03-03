@@ -38,6 +38,7 @@ Description: application startup accelerator for maemo
 
 Package: maemo-launcher-dev
 Architecture: all
+Multi-arch: foreign
 Section: libdevel
 Depends: debhelper (>= 10)
 Description: application startup accelerator for maemo - development files
