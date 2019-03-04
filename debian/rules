@@ -102,7 +102,7 @@ binary-arch: build install
 	dh_installinit -a --no-start
 	dh_installman -a
 	dh_link -a
-	dh_strip -p maemo-launcher --dbg-package=maemo-launcher-dbg
+	dh_strip
 	dh_compress -a
 	dh_fixperms -a
 	chmod u+s $(CURDIR)/debian/maemo-launcher/usr/lib/maemo-launcher/defender

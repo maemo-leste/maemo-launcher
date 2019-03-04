@@ -3,7 +3,7 @@ Section: embedded
 Priority: optional
 Maintainer: Janne Karhunen <Janne.Karhunen@nokia.com>
 Build-Depends:
- debhelper (>= 5.0.0),
+ debhelper (>= 10),
  libgtk2.0-dev,
  libfontconfig1-dev,
  libpango1.0-dev,
@@ -23,7 +23,7 @@ Build-Depends:
  libsqlite3-dev,
  libalarm-dev,
 # To build the QT Booster we need libqt4-dev
-Standards-Version: 3.7.2
+Standards-Version: 4.3.0
 
 Package: maemo-launcher
 Architecture: any
@@ -36,22 +36,10 @@ Description: application startup accelerator for maemo
  of some libraries using the booster modules and then dynamically loading
  the applications. It currently supports null, GTK+, QT and CPP boosters.
 
-Package: maemo-launcher-dbg
-Architecture: any
-Section: devel
-Priority: extra
-Depends: maemo-launcher (= ${binary:Version})
-Description: application startup accelerator for maemo - debugging symbols
- Maemo launcher tries to reduce startup time by pre-initializing the state
- of some libraries using the booster modules and then dynamically loading
- the applications. It currently supports null, GTK+, QT and CPP boosters.
- .
- This package provides the debugging symbols for maemo-launcher.
-
 Package: maemo-launcher-dev
 Architecture: all
 Section: libdevel
-Depends: debhelper (>= 4)
+Depends: debhelper (>= 10)
 Description: application startup accelerator for maemo - development files
  Maemo launcher tries to reduce startup time by pre-initializing the state
  of some libraries using the booster modules and then dynamically loading
