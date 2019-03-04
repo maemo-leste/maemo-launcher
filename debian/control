@@ -37,8 +37,7 @@ Description: application startup accelerator for maemo
  the applications. It currently supports null, GTK+, QT and CPP boosters.
 
 Package: maemo-launcher-dev
-Architecture: all
-Multi-arch: foreign
+Architecture: any
 Section: libdevel
 Depends: debhelper (>= 10)
 Description: application startup accelerator for maemo - development files

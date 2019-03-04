@@ -1,17 +1,14 @@
 #!/usr/bin/make -f
-#
-
-DEB_HOST_GNU_TYPE   ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+%:
+	dh $@
 
 POD2MAN := pod2man -c maemo-launcher
 
-CFLAGS = -g -Wall -Werror
+DEB_CFLAGS_MAINT_APPEND += -Wall -Werror
 
 ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0 -DDEBUG=1
-else
-	CFLAGS += -O2
+        DEB_CPPFLAGS_MAINT_APPEND += -DDEBUG=1
+        DEB_CFLAGS_MAINT_APPEND   += -O0
 endif
 
 ifeq (,$(findstring nohildon,$(DEB_BUILD_OPTIONS)))
@@ -22,95 +19,30 @@ endif
 #	opt_qt := --enable-qt-booster
 #endif
 
-# Nasty thing due to having the upstream and debian stuff merged.
-configure: configure.ac
-	autoreconf -f -i -Wall
-	rm -rf autom4te.cache
+export DEB_CPPFLAGS_MAINT_APPEND DEB_CFLAGS_MAINT_APPEND
 
-config.status: configure
-	dh_testdir
+override_dh_auto_configure:
+	dh_auto_configure -- \
+		$(opt_hildon) \
+		$(opt_qt)
 
-	CFLAGS="$(CFLAGS)" ./configure \
-	  --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) \
-	  $(opt_hildon) \
-	  $(opt_qt) \
-	  --mandir=\$${prefix}/share/man \
-	  --prefix=/usr
+override_dh_auto_build:
+	dh_auto_build
+	$(POD2MAN) debian/dh_maemolauncher > \
+		   debian/dh_maemolauncher.1
 
-build: config.status
-	dh_testdir
+override_dh_auto_install:
+	dh_auto_install
+	install -D debian/maemo-launcher.Xsession \
+		debian/tmp/etc/X11/Xsession.d/02maemo-launcher
+	install -D debian/maemo-launcher.Xsession-restart \
+		debian/tmp/etc/X11/Xsession.d/42maemo-launcher
+	cp debian/dh_maemolauncher debian/tmp/usr/bin
+	cp debian/dh_maemolauncher.1 debian/tmp/usr/share/man/man1/
 
-	$(MAKE)
+override_dh_installinit:
+	dh_installinit --no-start
 
-	$(POD2MAN) $(CURDIR)/debian/dh_maemolauncher > \
-	           $(CURDIR)/debian/dh_maemolauncher.1
-
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f build-stamp
-
-	[ ! -f Makefile ] || $(MAKE) distclean
-
-	dh_clean
-
-install: build
-	dh_testdir
-	dh_testroot
-	dh_clean -k
-	dh_installdirs -a
-
-	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
-
-	install -D $(CURDIR)/debian/maemo-launcher.Xsession \
-		$(CURDIR)/debian/tmp/etc/X11/Xsession.d/02maemo-launcher
-
-	install -D $(CURDIR)/debian/maemo-launcher.Xsession-restart \
-		$(CURDIR)/debian/tmp/etc/X11/Xsession.d/42maemo-launcher
-
-	cp $(CURDIR)/debian/dh_maemolauncher \
-	   $(CURDIR)/debian/tmp/usr/bin
-	cp $(CURDIR)/debian/dh_maemolauncher.1 \
-	   $(CURDIR)/debian/tmp/usr/share/man/man1/
-
-binary-indep: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs -i ChangeLog*
-	dh_installdocs -i
-	dh_install -i --sourcedir=$(CURDIR)/debian/tmp
-	dh_link -i
-	dh_compress -i
-	dh_fixperms -i
-	dh_installdeb -i
-	dh_gencontrol -i
-	dh_md5sums -i
-	dh_builddeb -i
-
-binary-arch: build install
-	dh_testdir
-	dh_testroot
-	dh_installchangelogs -a ChangeLog*
-	dh_installdocs -a
-	dh_installexamples -a
-	dh_install -a --sourcedir=$(CURDIR)/debian/tmp
-#	dh_installlogrotate
-	dh_installinit -a --no-start
-	dh_installman -a
-	dh_link -a
-	dh_strip
-	dh_compress -a
-	dh_fixperms -a
-	chmod u+s $(CURDIR)/debian/maemo-launcher/usr/lib/maemo-launcher/defender
-#	dh_makeshlibs
-	dh_installdeb -a
-	dh_shlibdeps -a
-	dh_gencontrol -a
-	dh_md5sums -a
-	dh_builddeb -a
-
-binary: binary-indep binary-arch
-build-arch: build
-
-.PHONY: build clean binary-indep binary-arch binary install
-
+override_dh_fixperms:
+	dh_fixperms
+	chmod u+s debian/maemo-launcher/usr/lib/*/maemo-launcher/defender
