@@ -853,7 +853,8 @@ static void
 fs_init(void)
 {
   umask(022);
-  chdir("/");
+  if (chdir("/") == -1)
+    perror("fs_init");
 }
 
 static void
