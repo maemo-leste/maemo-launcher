@@ -1,3 +1,9 @@
+maemo-launcher (0.36.1) unstable; urgency=medium
+
+  * Migrate to dh build sequencer
+
+ -- Arthur Demchenkov <spinal.by@gmail.com>  Mon, 04 Mar 2019 16:38:16 +0300
+
 maemo-launcher (0.36) unstable; urgency=medium
 
   * Add multiarch support
