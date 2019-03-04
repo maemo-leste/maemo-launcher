@@ -14,15 +14,11 @@ else
 	CFLAGS += -O2
 endif
 
-ifneq (,$(findstring nohildon,$(DEB_BUILD_OPTIONS)))
-	opt_hildon :=
-else
+ifeq (,$(findstring nohildon,$(DEB_BUILD_OPTIONS)))
 	opt_hildon := --enable-hildon-booster --enable-cpp-booster
 endif
 
-#ifneq (,$(findstring noqt,$(DEB_BUILD_OPTIONS)))
-#	opt_qt :=
-#else
+#ifeq (,$(findstring noqt,$(DEB_BUILD_OPTIONS)))
 #	opt_qt := --enable-qt-booster
 #endif
 
