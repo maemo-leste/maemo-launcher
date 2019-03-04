@@ -8,7 +8,7 @@ POD2MAN := pod2man -c maemo-launcher
 
 CFLAGS = -g -Wall -Werror
 
-ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0 -DDEBUG=1
 else
 	CFLAGS += -O2
