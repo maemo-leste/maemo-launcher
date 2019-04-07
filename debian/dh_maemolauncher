@@ -20,7 +20,7 @@ dh_maemolauncher is a debhelper program that is responsible for adding
 the ${launcher:Depends} into the substvars file and creating the proper
 symlinks for launcherizable programs.
 
-Any shared object specified as parameteres will be prepared to be used
+Any shared object specified as parameters will be prepared to be used
 by maemo-launcher into the first package dh_maemolauncher is told to act
 on. By default, this is the first binary package in debian/control, but
 if you use -p, -i or -a flags, it will be the first package specified by
