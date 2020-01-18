@@ -22,6 +22,7 @@ Build-Depends:
  libjpeg62-turbo-dev,
  libsqlite3-dev,
  libalarm-dev,
+ g++-7,
 # To build the QT Booster we need libqt4-dev
 Standards-Version: 4.3.0
 

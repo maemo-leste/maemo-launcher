@@ -22,7 +22,7 @@ endif
 export DEB_CPPFLAGS_MAINT_APPEND DEB_CFLAGS_MAINT_APPEND
 
 override_dh_auto_configure:
-	dh_auto_configure -- \
+	CXX="g++-7" dh_auto_configure -- \
 		$(opt_hildon) \
 		$(opt_qt)
 
