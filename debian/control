@@ -28,6 +28,7 @@ Standards-Version: 4.3.0
 
 Package: maemo-launcher
 Architecture: any
+Multi-Arch: same
 Depends:
  ${shlibs:Depends},
  hildon-initscripts,
@@ -39,6 +40,7 @@ Description: application startup accelerator for maemo
 
 Package: maemo-launcher-dev
 Architecture: any
+Multi-Arch: same
 Section: libdevel
 Depends: debhelper (>= 10)
 Description: application startup accelerator for maemo - development files
