@@ -1,5 +1,5 @@
 Name: maemo-launcher-app
 Description: maemo-launcher application startup accelerator
 Version: @VERSION@
-Libs: -shared @PIC@ -pie -export-dynamic
-Cflags: -shared @PIC@
+Libs:  @PIC@ -shared
+Cflags: @PIC@ -shared
