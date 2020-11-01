@@ -1,3 +1,9 @@
+maemo-launcher (0.37.1) unstable; urgency=low
+
+  * remove '-pie -export-dynamic' from Libs in .pc file
+
+ -- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>  Sun, 01 Nov 2020 11:50:32 +0200
+
 maemo-launcher (0.36.1) unstable; urgency=medium
 
   * Migrate to dh build sequencer
