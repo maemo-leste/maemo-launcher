@@ -1,3 +1,9 @@
+maemo-launcher (0.38) unstable; urgency=low
+
+  * Add nested symlink resolving
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Sat, 06 Nov 2021 17:46:39 +0100
+
 maemo-launcher (0.37.1) unstable; urgency=low
 
   * remove '-pie -export-dynamic' from Libs in .pc file
