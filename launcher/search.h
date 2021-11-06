@@ -21,6 +21,7 @@
 #ifndef SEARCH_H
 #define SEARCH_H
 
+char *resolve_program(const char *progname);
 char *search_program(const char *progname);
 
 #endif
