@@ -1,3 +1,9 @@
+maemo-launcher (0.38.1) unstable; urgency=low
+
+  * Fix bug in resolving some symlinks
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Sat, 06 Nov 2021 19:15:40 +0100
+
 maemo-launcher (0.38) unstable; urgency=low
 
   * Add nested symlink resolving
