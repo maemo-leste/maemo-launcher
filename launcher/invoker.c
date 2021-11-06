@@ -376,6 +376,7 @@ main(int argc, char *argv[])
   int prog_prio = 0;
   int prog_ret = 0;
   char *launch = NULL;
+  char *resolve = NULL;
   char *delay_str = NULL;
   unsigned int delay;
   int magic_options = 0;
@@ -412,10 +413,14 @@ main(int argc, char *argv[])
   }
   else
   {
+    resolve = resolve_program(argv[0]);
+    if (!resolve)
+        die(1, "could not resolve program");
     /* Called with a different name. Add the proper extension and launch it.
      * Do not try to parse any arguments. */
-    if (asprintf(&launch, "%s.launch", argv[0]) < 0)
+    if (asprintf(&launch, "%s.launch", resolve) < 0)
       die(1, "allocating program name buffer");
+    free(resolve);
     prog_name = search_program(launch);
     prog_argc = argc;
     prog_argv = argv;
