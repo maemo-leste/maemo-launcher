@@ -25,7 +25,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-#include <limits.h>
 #include <errno.h>
 #include <libgen.h>
 
@@ -76,9 +75,9 @@ static char* path_lookup(const char *progname) {
 char* resolve_program(const char *progname) {
   char *launch = NULL;
   char *tmp = NULL;
-  char link[PATH_MAX];
+  char link[1024];
   int count;
-  int ret;
+  ssize_t ret;
 
   if (progname[0] == '/')
   {
@@ -94,7 +93,7 @@ char* resolve_program(const char *progname) {
 
     count = 0;
     while (1) {
-      ret = readlink(tmp, link, PATH_MAX);
+      ret = readlink(tmp, link, sizeof(link) - 1);
 
       if (ret == -1)
       {
@@ -119,7 +118,7 @@ char* resolve_program(const char *progname) {
         free(basen);
         free(tmp);
         tmp = strdup(link);
-        memset(link, 0, PATH_MAX);
+        memset(link, 0, sizeof(link));
       }
       count++;
       if (count > 999) {
