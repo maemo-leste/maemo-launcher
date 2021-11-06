@@ -105,6 +105,7 @@ char* resolve_program(const char *progname) {
       }
       else
       {
+        link[ret] = '\0';
         char* base = strdup(link);
         char* basen = strdup(basename(base));
         free(base);
