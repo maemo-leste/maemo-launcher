@@ -22,10 +22,8 @@ Build-Depends:
  libjpeg62-turbo-dev,
  libsqlite3-dev,
  libalarm-dev,
-# We need to build with gcc-7 on Debian 'buster' / Devuan 'beowulf'
-# because of bugs in GCC 8 - https://github.com/maemo-leste/bugtracker/issues/298
- gcc-7,
- g++-7,
+ gcc-10,
+ g++-10,
 # To build the QT Booster we need libqt4-dev
 Standards-Version: 4.3.0
 

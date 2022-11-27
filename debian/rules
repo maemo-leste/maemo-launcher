@@ -21,10 +21,8 @@ endif
 
 export DEB_CPPFLAGS_MAINT_APPEND DEB_CFLAGS_MAINT_APPEND
 
-# We need to build with gcc-7 on Debian 'buster' / Devuan 'beowulf'
-# because of bugs in GCC 8 - https://github.com/maemo-leste/bugtracker/issues/298
 override_dh_auto_configure:
-	CC="gcc-7" CXX="g++-7" dh_auto_configure -- \
+	dh_auto_configure -- \
 		$(opt_hildon) \
 		$(opt_qt)
 
