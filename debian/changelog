@@ -1,3 +1,9 @@
+maemo-launcher (0.39) unstable; urgency=low
+
+  * Add and enable Qt5 booster
+
+ -- Merlijn Wajer <merlijn@wizzup.org>  Thu, 12 Jan 2023 11:07:45 +0100
+
 maemo-launcher (0.38.2) unstable; urgency=low
 
   * Tidy up readlink code some more
