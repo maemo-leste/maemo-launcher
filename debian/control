@@ -24,7 +24,7 @@ Build-Depends:
  libalarm-dev,
  gcc-10,
  g++-10,
-# To build the QT Booster we need libqt4-dev
+ qtbase5-dev,
 Standards-Version: 4.3.0
 
 Package: maemo-launcher

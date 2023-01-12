@@ -97,9 +97,9 @@ if test x$qt_booster = xtrue
 then
 
 PKG_CHECK_MODULES([BOOSTER_QT], [
-	QtCore
-	QtDBus
-	QtGui
+	Qt5Core
+	Qt5DBus
+	Qt5Gui
 ])
 
 fi 
