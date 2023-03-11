@@ -43,7 +43,7 @@ Package: maemo-launcher-dev
 Architecture: any
 Multi-Arch: same
 Section: libdevel
-Depends: debhelper (>= 10)
+Depends: debhelper (>= 10), ${perl:Depends}
 Description: application startup accelerator for maemo - development files
  Maemo launcher tries to reduce startup time by pre-initializing the state
  of some libraries using the booster modules and then dynamically loading
