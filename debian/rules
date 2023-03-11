@@ -40,9 +40,6 @@ override_dh_auto_install:
 	cp debian/dh_maemolauncher debian/tmp/usr/bin
 	cp debian/dh_maemolauncher.1 debian/tmp/usr/share/man/man1/
 
-override_dh_installinit:
-	dh_installinit --no-start
-
 override_dh_fixperms:
 	dh_fixperms
 	chmod u+s debian/maemo-launcher/usr/lib/*/maemo-launcher/defender

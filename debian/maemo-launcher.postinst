@@ -3,22 +3,23 @@
 set -e
 
 # Reload the launcher binary from disk while preserving the current state
-# on upgrade (except when installing or upgrading from an old version).
-if [ "$1" = configure ] && [ -x "/etc/init.d/maemo-launcher" ]; then
-	if dpkg --compare-versions "$2" lt-nl 0.27-1; then
-		action=start
-	else
-		action=reload
+# on upgrade.
+if [ "$1" = configure ]; then
+	pidof -q maemo-launcher && launcher_running=true
+	if [ x$launcher_running = xtrue ]; then
+		echo restarting daemon...
+		kill -USR1 `pidof maemo-launcher`
 	fi
 
-	if [ -x "`which invoke-rc.d 2>/dev/null`" ]; then
-		invoke-rc.d maemo-launcher $action || exit $?
-	else
-		/etc/init.d/maemo-launcher $action || exit $?
-	fi
+	update-rc.d maemo-launcher remove >/dev/null
 fi
 
 #DEBHELPER#
 
-exit 0
+# We must do it here, dpkg-maintscript-helper should have already removed the
+# init script
+if [ "$1" = configure ]; then
+	update-rc.d maemo-launcher remove >/dev/null
+fi
 
+exit 0

@@ -1,0 +1,1 @@
+rm_conffile /etc/init.d/maemo-launcher 0.38.3~ maemo-launcher
