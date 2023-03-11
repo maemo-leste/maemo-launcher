@@ -1,3 +1,9 @@
+maemo-launcher (0.38.3) unstable; urgency=low
+
+  * Remove init.d script - always start from xsession
+
+ -- Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>  Sun, 01 Nov 2020 11:50:32 +0200
+
 maemo-launcher (0.38.2) unstable; urgency=low
 
   * Tidy up readlink code some more
