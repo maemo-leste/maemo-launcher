@@ -120,7 +120,7 @@ AM_CONDITIONAL([USE_CPP_BOOSTER], [test x$cpp_booster = xtrue])
 if test x$cpp_booster = xtrue
 then
 GLIBS=$LIBS
-AC_CHECK_LIB(stdc++, main,,AC_MSG_ERROR(gdu configure option requires libstdc++))
+AC_CHECK_LIB(stdc++, setlocale,,AC_MSG_ERROR(gdu configure option requires libstdc++))
 LIBS=$GLIBS
 fi
 
