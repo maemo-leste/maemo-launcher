@@ -805,11 +805,29 @@ sigs_restore(void)
   sigaction(SIGUSR1, &sig, NULL);
 }
 
+static int
+our_siginterrupt(int sig, int flag)
+{
+#if HAVE_SIGACTION
+    struct sigaction act;
+    (void) sigaction(sig, NULL, &act);
+    if (flag) {
+        act.sa_flags &= ~SA_RESTART;
+    }
+    else {
+        act.sa_flags |= SA_RESTART;
+    }
+    return sigaction(sig, &act, NULL);
+#else
+    return siginterrupt(sig, flag) < 0;
+#endif
+}
+
 static void
 sigs_interrupt(int flag)
 {
-  siginterrupt(SIGCHLD, flag);
-  siginterrupt(SIGUSR1, flag);
+  our_siginterrupt(SIGCHLD, flag);
+  our_siginterrupt(SIGUSR1, flag);
 }
 
 static void

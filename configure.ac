@@ -104,6 +104,9 @@ PKG_CHECK_MODULES([BOOSTER_QT], [
 
 fi 
 
+# Check for sigaction (siginterrupt is deprecated in some places)
+AC_CHECK_FUNCS(sigaction, [ have_sigaction="1" ], [ have_sigaction="0" ])
+
 AC_ARG_ENABLE([cpp-booster],
 	[AS_HELP_STRING([--enable-cpp-booster],
 		[link with libstdc++ to reduce runtime linker time])],
