@@ -130,16 +130,17 @@ init_cairo(void)
 {
   cairo_surface_t *surface;
   cairo_t *cairo;
-  PangoContext *context;
-  PangoLayout *layout;
-  PangoFontMap *font_map;
+  //PangoContext *context;
+  //PangoLayout *layout;
+  //PangoFontMap *font_map;
 
   surface = cairo_image_surface_create(CAIRO_FORMAT_RGB24, 1, 1);
   cairo = cairo_create(surface);
-  font_map = pango_cairo_font_map_get_default();
-  context = pango_font_map_create_context(PANGO_FONT_MAP(font_map));
-  layout = pango_layout_new(context);
-  pango_cairo_show_layout(cairo, layout);
+  (void)cairo;
+  //font_map = pango_cairo_font_map_get_default();
+  //context = pango_font_map_create_context(PANGO_FONT_MAP(font_map));
+  //layout = pango_layout_new(context);
+  //pango_cairo_show_layout(cairo, layout);
 }
 
 static booster_state_t
